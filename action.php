@@ -59,17 +59,19 @@ class action_plugin_ireadit extends DokuWiki_Action_Plugin {
 		) if($REV == 0 && is_array($INFO['userinfo']) && !$this->has_read($readers, $INFO['client']))
 			echo '<a href="?id='.$ID.'&do=ireadit">'.$this->getLang('ireadit').'</a>';
 		
-		if(count($readers) > 0){
-			echo '<h3>'.$this->getLang('readit_header').'</h3>';
-			echo '<ul>';
-			foreach ($readers as $reader) {
-			   $udata = $auth->getUserData($reader['client'], false);
-			   echo '<li>'.$udata['name'].' - '.date('d/m/Y H:i', $reader['time']).'</li>';
-			}
+		if($INFO['isadmin'])
+		{
+			if(count($readers) > 0){
+				echo '<h3>'.$this->getLang('readit_header').'</h3>';
+				echo '<ul>';
+				foreach ($readers as $reader) {
+			   	$udata = $auth->getUserData($reader['client'], false);
+			   	echo '<li>'.$udata['name'].' - '.date('d/m/Y H:i', $reader['time']).'</li>';
+				}
 
-			echo '</ul>';
+				echo '</ul>';
+			}
 		}
-		echo '</div>';
     }
     function updatre_ireadit_metadata($event) 
     {
